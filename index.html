@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>To Do List</title>
+
+	<link rel="stylesheet" href="todo.css">
+	<!--Librarii necesare firebase-->
+	<!-- TERMINAL
+	npm init -y
+ npm i firebase
+-->
+	<script type="module" src="./firebase.js"></script>
+
+</head>
+
+<body>
+<div id="chenar">
+	<div id="title" class="header">
+		<h2 style="margin:5px">Listă de sarcini</h2>
+		<hr>
+		<br>
+		<input type="text" id="Input" placeholder="Sarcina...">
+		<span id="addItem" class="addBtn">Adaugă</span>
+	</div>
+
+	<ul id="ToDolist">
+		<!--Aici se incarca lista cu task-uri-->
+	</ul>
+
+	<div id="congrads">
+		<!--Se afiseaza cnd baza de date e goala-->
+			<p>Ai avut o zi productivă</p>
+	</div>
+
+	<div id="progres" style="display:none">
+	
+		<div id="right">
+						<p>Terminate: </p>
+		</div>
+		<div id="left">
+						<p>Rămase:</p>
+		</div>
+	</div>
+</div>
+
+
+
+
+</body>
+
+</html>
