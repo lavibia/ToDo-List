@@ -1,16 +1,16 @@
-import {initializeApp} from 'https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js'
-import {getAnalytics} from 'https://www.gstatic.com/firebasejs/9.8.1/firebase-analytics.js'
-import {getFirestore, collection, addDoc, getDocs, doc, onSnapshot,deleteDoc, updateDoc, deleteField, getDoc } from 'https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js'
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js'
+import { getAnalytics } from 'https://www.gstatic.com/firebasejs/9.8.1/firebase-analytics.js'
+import { getFirestore, collection, addDoc, getDocs, doc, onSnapshot, deleteDoc, updateDoc, deleteField, getDoc } from 'https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js'
 
 
 const firebaseConfig = {
-apiKey: "AIzaSyAFMBMMxwXfY2D-nLe2RhcYdNGm5eLGEC8",
-authDomain: "todolistdsw.firebaseapp.com",
-projectId: "todolistdsw",
-storageBucket: "todolistdsw.appspot.com",
-messagingSenderId: "498607480005",
-appId: "1:498607480005:web:b1886253c76b1d66a3a4ac",
-measurementId: "G-0J24QME382"
+    apiKey: "AIzaSyAFMBMMxwXfY2D-nLe2RhcYdNGm5eLGEC8",
+    authDomain: "todolistdsw.firebaseapp.com",
+    projectId: "todolistdsw",
+    storageBucket: "todolistdsw.appspot.com",
+    messagingSenderId: "498607480005",
+    appId: "1:498607480005:web:b1886253c76b1d66a3a4ac",
+    measurementId: "G-0J24QME382"
 };
 
 // Initialize Firebase
@@ -20,43 +20,43 @@ const db = getFirestore(app);
 const todoItems = collection(db, 'todo-items')
 
 //Call functions
-document.getElementById("addItem").onclick = function(){addItem()};
+document.getElementById("addItem").onclick = function () { addItem() };
 
 
 
 
 //get items from database
-function getItems(){
+function getItems() {
 
-    const todo = onSnapshot(todoItems, (querySnapshot)=>{
-    let items = [];
-    querySnapshot.forEach((doc)=> {
-        items.push({
+    const todo = onSnapshot(todoItems, (querySnapshot) => {
+        let items = [];
+        querySnapshot.forEach((doc) => {
+            items.push({
                 id: doc.id,
                 ...doc.data()
             })
-        console.log(`${doc.id} => ${doc.data().text}`);
+            console.log(`${doc.id} => ${doc.data().text}`);
+        });
+        generateItems(items);
+
+
     });
-    generateItems(items);
-
-
-});
 }
 
-function generateItems(items){
-    if(items.length==0){
-        document.getElementById("congrads").style.display='block';
-        document.getElementById("progres").style.display = 'none';
+function generateItems(items) {
+    if (items.length == 0) {
+        document.getElementById("congrads").style.display = 'block';
+        document.getElementById("progress").style.display = 'none';
     }
-    else{
-        document.getElementById("congrads").style.display='none';
-        document.getElementById("progres").style.display = 'block';
+    else {
+        document.getElementById("congrads").style.display = 'none';
+        document.getElementById("progress").style.display = 'block';
 
-        
+
     }
 
     let todoList = []
-    items.forEach((item)=>{
+    items.forEach((item) => {
         var li = document.createElement("li");
         li.classList.add("item");
         var t = document.createTextNode(item.text);
@@ -71,28 +71,28 @@ function generateItems(items){
 
 
         //functionalitate sarcina terminata
-        if(item.status == "completed")
+        if (item.status == "completed")
             li.classList.add('completed');
         else
             li.classList.remove('completed');
 
-        span.parentElement.onclick = function(){
+        span.parentElement.onclick = function () {
             li.classList.toggle('completed');
             checkItem(item.id);
             console.log(`${item.id} => ${item.text}`);
         };
 
         //functionalitate delete
-        span.onclick = function(){
+        span.onclick = function () {
             var div = this.parentElement;
             div.style.display = "none";
             delItem(item.id);
         }
         todoList.push(li);
 
-});
-document.querySelector("ul").replaceChildren(...todoList);
-progres();
+    });
+    document.querySelector("ul").replaceChildren(...todoList);
+    progress();
 }
 
 
@@ -104,77 +104,77 @@ function addItem() {
     if (text === '') {
         alert("Scrieti o sarcina!");
     } else {
-        try{
+        try {
             const newItem = addDoc(todoItems, {
-            text: text,
-            status: "active"
-        });
+                text: text,
+                status: "active"
+            });
         } catch (e) {
             console.error("Eroare la adaugare: ", e);
         }
     }
     //goleste caseta text
-    document.getElementById("Input").value= "";
-    
+    document.getElementById("Input").value = "";
+
 }
 
 
 
 
-function checkItem(id){
-    const ref = doc(db, 'todo-items',id);
+function checkItem(id) {
+    const ref = doc(db, 'todo-items', id);
     const docSnap = getDoc(ref);
     docSnap.then(docSnap => {
-        if(docSnap.exists()){
+        if (docSnap.exists()) {
             console.log(`${docSnap.data().status}`);
-            if(docSnap.data().status=="active"){
-                const upd = updateDoc(ref,{
-                status:"completed"
+            if (docSnap.data().status == "active") {
+                const upd = updateDoc(ref, {
+                    status: "completed"
                 });
             }
-            else{
-                const updt = updateDoc(ref,{
-                status:"active"
+            else {
+                const updt = updateDoc(ref, {
+                    status: "active"
                 });
                 //console.log("detect Else ");
             }
-        }else{
+        } else {
             console.log("Nu exista in db ");
         }
     });
-    progres();
+    progress();
 }
 
 
 //     //adauga buton X pentru item
-function delItem(id){
-    const ref = doc(db, "todo-items",id);
-        const docSnap = getDoc(ref);
-            docSnap.then(docSnap => {
-            if(docSnap.exists()){
-                try{
+function delItem(id) {
+    const ref = doc(db, "todo-items", id);
+    const docSnap = getDoc(ref);
+    docSnap.then(docSnap => {
+        if (docSnap.exists()) {
+            try {
 
                 const del = deleteDoc(ref);
 
-        } catch (e) {
-            console.error("Eroare la stergere: ", e);
-        }
-            }else{
-                console.log("Nu exista in db");
+            } catch (e) {
+                console.error("Eroare la stergere: ", e);
             }
-        });
-    }
+        } else {
+            console.log("Nu exista in db");
+        }
+    });
+}
 
-function progres(){
-    var nritems =0;
-    var nrdone= 0;
+function progress() {
+    var nritems = 0;
+    var nrdone = 0;
 
-    nritems=document.getElementsByClassName("item").length
+    nritems = document.getElementsByClassName("item").length
     //console.log(" `${nritems}`);
-    nrdone=document.getElementsByClassName("completed").length
-   // console.log(" `${nrdone}`);
-    document.getElementById("right").textContent="Terminate: "+nrdone;
-    document.getElementById("left").textContent="Rămase: "+ (nritems - nrdone);
+    nrdone = document.getElementsByClassName("completed").length
+    // console.log(" `${nrdone}`);
+    document.getElementById("right").textContent = "Done: " + nrdone;
+    document.getElementById("left").textContent = "To do: " + (nritems - nrdone);
 }
 
 getItems();

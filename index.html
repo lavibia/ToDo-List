@@ -1,54 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>To Do List</title>
 
+	<title>To Do List</title>
+	<!-- CSS file -->
 	<link rel="stylesheet" href="todo.css">
 	<!--Librarii necesare firebase-->
 	<!-- TERMINAL
 	npm init -y
- npm i firebase
--->
-	<script type="module" src="./firebase.js"></script>
+ 	npm i firebase
+	-->
+
 
 </head>
 
 <body>
-<div id="chenar">
-	<div id="title" class="header">
-		<h2 style="margin:5px">Listă de sarcini</h2>
-		<hr>
-		<br>
-		<input type="text" id="Input" placeholder="Sarcina...">
-		<span id="addItem" class="addBtn">Adaugă</span>
-	</div>
-
-	<ul id="ToDolist">
-		<!--Aici se incarca lista cu task-uri-->
-	</ul>
-
-	<div id="congrads">
-		<!--Se afiseaza cnd baza de date e goala-->
-			<p>Ai avut o zi productivă</p>
-	</div>
-
-	<div id="progres" style="display:none">
-	
-		<div id="right">
-						<p>Terminate: </p>
+	<div id="container">
+		<div id="title" class="header">
+			<h2 style="margin:5px">To Do List:</h2>
+			<hr>
+			<br>
+			<input type="text" id="Input" placeholder="Task...">
+			<span id="addItem" class="addBtn">Add</span>
 		</div>
-		<div id="left">
-						<p>Rămase:</p>
+
+		<ul id="ToDolist">
+			<!--This will be filled with tasks-->
+		</ul>
+
+
+		<div id="progress" style="display:none">
+		<!-- Displays how many tasks youhave done and how many remained -->
+			<div id="right">
+				<p>Done: </p>
+			</div>
+			<div id="left">
+				<p>To do:</p>
+			</div>
+		</div>
+
+		<div id="congrads">
+			<!--When no todo list items are in the list-->
+			<img src="finish.gif" alt="tasks finished">
+			<p>You had a very productive day</p>
 		</div>
 	</div>
-</div>
 
 
 
-
+	<script type="module" src="./firebase.js"></script>
 </body>
 
 </html>
