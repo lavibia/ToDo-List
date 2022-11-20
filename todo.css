@@ -1,4 +1,9 @@
- body {
+/* Include the padding and border in an element's total width and height */
+* {
+	box-sizing: border-box;
+}
+
+body {
  	margin: 0;
  	min-width: 250px;
  	background-color: #fff;
@@ -13,10 +18,60 @@
  	border-radius: 10px;
  }
 
- /* Include the padding and border in an element's total width and height */
- * {
- 	box-sizing: border-box;
- }
+/* Style the header */
+.header {
+	background-color: rgba(19, 104, 18, 0.6);
+	padding: 30px 40px;
+	color: white;
+	border-radius: 10px;
+	text-align: center;
+	padding-bottom: 70px;
+
+}
+h2 {
+	margin: 5px;
+}
+
+hr {
+	width: 200px;
+	border: 0px;
+	background-color: rgb(255, 255, 255);
+	height: 2px;
+	border-radius: 5px;
+}
+
+/* Style the input */
+input {
+	margin: 0;
+	border: none;
+	border-radius: 5px;
+	width: 75%;
+	padding: 10px;
+	float: left;
+	font-size: 16px;
+}
+
+
+/* Style the "Add" button */
+.addBtn {
+	padding: 8px;
+	width: fit-content;
+	background-color: rgba(7, 77, 7, 0.518);
+	color: rgb(250, 252, 250);
+	float: left;
+	text-align: center;
+	font-size: 16px;
+	cursor: pointer;
+	transition: 0.3s;
+	border-radius: 5px;
+	margin-left: 2vw;
+}
+	 .addBtn:hover {
+	 	background-color: rgb(250, 252, 250);
+	 	color: rgb(5, 20, 5);
+	 }
+
+ 
 
  /* Remove margins and padding from the list */
  ul {
@@ -38,8 +93,61 @@
  	/* make the list items unselectable */
  	user-select: none;
  }
+/* Set all odd list items to a different color (zebra-stripes) */
+ul li:nth-child(odd) {
+	background: #f9f9f9;
+}
+
+/* Darker background-color on hover */
+ul li:hover {
+	background: #ddd;
+}
+
+/* When clicked on, add a background color and strike out text */
+ul li.completed {
+	background: #888;
+	color: #fff;
+	text-decoration: line-through;
+}
+
+/* Add a "checked" mark when clicked on */
+ul li.completed::before {
+	content: '';
+	position: absolute;
+	border-color: #fff;
+	border-style: solid;
+	border-width: 0 2px 2px 0;
+	top: 10px;
+	left: 16px;
+	transform: rotate(45deg);
+	height: 15px;
+	width: 7px;
+}
+
+
+/* Style the close button */
+.close {
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding: 12px 16px 12px 16px;
+}
+
+.close:hover {
+	background-color: rgba(19, 104, 18, 0.6);
+	border-radius: 50%;
+
+	color: white;
+}
+
 
  /* progres */
+
+
+#progress {
+	display: none;
+}
+
  #right,
  #left {
  	margin-top: 3vw;
@@ -59,111 +167,11 @@
  	color: rgb(86, 132, 88);
  }
 
- /* Set all odd list items to a different color (zebra-stripes) */
- ul li:nth-child(odd) {
- 	background: #f9f9f9;
- }
-
- /* Darker background-color on hover */
- ul li:hover {
- 	background: #ddd;
- }
-
- /* When clicked on, add a background color and strike out text */
- ul li.completed {
- 	background: #888;
- 	color: #fff;
- 	text-decoration: line-through;
- }
-
- /* Add a "checked" mark when clicked on */
- ul li.completed::before {
- 	content: '';
- 	position: absolute;
- 	border-color: #fff;
- 	border-style: solid;
- 	border-width: 0 2px 2px 0;
- 	top: 10px;
- 	left: 16px;
- 	transform: rotate(45deg);
- 	height: 15px;
- 	width: 7px;
- }
-
-
- /* Style the close button */
- .close {
- 	position: absolute;
- 	right: 0;
- 	top: 0;
- 	padding: 12px 16px 12px 16px;
- }
-
- .close:hover {
- 	background-color: rgba(19, 104, 18, 0.6);
- 	border-radius: 50%;
-
- 	color: white;
- }
-
- /* Style the header */
- .header {
- 	background-color: rgba(19, 104, 18, 0.6);
- 	padding: 30px 40px;
- 	color: white;
- 	border-radius: 10px;
- 	text-align: center;
- 	padding-bottom: 70px;
-
- }
-
- /* Style the input */
- input {
- 	margin: 0;
- 	border: none;
- 	border-radius: 5px;
- 	width: 75%;
- 	padding: 10px;
- 	float: left;
- 	font-size: 16px;
- }
-
- hr {
- 	width: 200px;
- 	border: 0px;
- 	background-color: rgb(255, 255, 255);
- 	height: 2px;
- 	border-radius: 5px;
- }
-
- /* Style the "Add" button */
- .addBtn {
- 	padding: 10px;
- 	width: fit-content;
- 	background-color: rgba(7, 77, 7, 0.518);
- 	color: rgb(250, 252, 250);
- 	float: left;
- 	text-align: center;
- 	font-size: 16px;
- 	cursor: pointer;
- 	transition: 0.3s;
- 	border-radius: 5px;
- 	margin-left: 2vw;
- }
-
- #progress {
- 	display: none;
- }
-
- .addBtn:hover {
- 	background-color: rgb(250, 252, 250);
- 	color: rgb(5, 20, 5);
- }
-
  #congrads>img {
  	width: auto;
  	height: 50vh;
  }
+
 
  @media (max-width: 800px) {
  	#congrads>img {

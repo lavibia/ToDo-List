@@ -2,7 +2,6 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.8.1/firebase
 import { getAnalytics } from 'https://www.gstatic.com/firebasejs/9.8.1/firebase-analytics.js'
 import { getFirestore, collection, addDoc, getDocs, doc, onSnapshot, deleteDoc, updateDoc, deleteField, getDoc } from 'https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js'
 
-
 const firebaseConfig = {
     apiKey: "AIzaSyAFMBMMxwXfY2D-nLe2RhcYdNGm5eLGEC8",
     authDomain: "todolistdsw.firebaseapp.com",
@@ -12,19 +11,19 @@ const firebaseConfig = {
     appId: "1:498607480005:web:b1886253c76b1d66a3a4ac",
     measurementId: "G-0J24QME382"
 };
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
 const todoItems = collection(db, 'todo-items')
-
-//Call functions
-document.getElementById("addItem").onclick = function () { addItem() };
-
-
-
-
+//html elements select
+var button = document.getElementById("addItem");
+var input = document.getElementById("Input");
+var ul = document.querySelector("ul");
+function inputLength() {
+    console.log(`$input.value`)
+    return input.value.length;
+}
 //get items from database
 function getItems() {
 
@@ -38,11 +37,8 @@ function getItems() {
             console.log(`${doc.id} => ${doc.data().text}`);
         });
         generateItems(items);
-
-
     });
 }
-
 function generateItems(items) {
     if (items.length == 0) {
         document.getElementById("congrads").style.display = 'block';
@@ -51,8 +47,6 @@ function generateItems(items) {
     else {
         document.getElementById("congrads").style.display = 'none';
         document.getElementById("progress").style.display = 'block';
-
-
     }
 
     let todoList = []
@@ -67,8 +61,6 @@ function generateItems(items) {
         span.className = "close";
         span.appendChild(txt);
         li.appendChild(span);
-
-
 
         //functionalitate sarcina terminata
         if (item.status == "completed")
@@ -94,33 +86,25 @@ function generateItems(items) {
     document.querySelector("ul").replaceChildren(...todoList);
     progress();
 }
-
-
-
 //add item in to do list
 function addItem() {
-    let text = document.getElementById("Input").value;
-    //nu se accepta todo-item nul
-    if (text === '') {
+    if (inputLength() == 0) {
         alert("Scrieti o sarcina!");
-    } else {
+    }
+    else {
         try {
             const newItem = addDoc(todoItems, {
-                text: text,
+                text: input.value,
                 status: "active"
             });
         } catch (e) {
             console.error("Eroare la adaugare: ", e);
         }
+
+        //goleste caseta text
+        input.value = "";
     }
-    //goleste caseta text
-    document.getElementById("Input").value = "";
-
 }
-
-
-
-
 function checkItem(id) {
     const ref = doc(db, 'todo-items', id);
     const docSnap = getDoc(ref);
@@ -144,8 +128,6 @@ function checkItem(id) {
     });
     progress();
 }
-
-
 //     //adauga buton X pentru item
 function delItem(id) {
     const ref = doc(db, "todo-items", id);
@@ -158,13 +140,14 @@ function delItem(id) {
 
             } catch (e) {
                 console.error("Eroare la stergere: ", e);
+
             }
         } else {
             console.log("Nu exista in db");
         }
     });
-}
 
+}
 function progress() {
     var nritems = 0;
     var nrdone = 0;
@@ -176,5 +159,11 @@ function progress() {
     document.getElementById("right").textContent = "Done: " + nrdone;
     document.getElementById("left").textContent = "To do: " + (nritems - nrdone);
 }
-
+function addItemAfterKey(event) {
+    if (event.which == 13) {
+        addItem();
+    }
+}
+button.addEventListener("click", addItem);
+input.addEventListener("keypress", addItemAfterKey)
 getItems();
